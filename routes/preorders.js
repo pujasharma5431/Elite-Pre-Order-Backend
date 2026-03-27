@@ -42,4 +42,14 @@ router.patch("/:id/status", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const order = await PreOrder.findByIdAndDelete(req.params.id);
+    if (!order) return res.status(404).json({ error: "Order not found" });
+    res.json({ ok: true, id: req.params.id });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

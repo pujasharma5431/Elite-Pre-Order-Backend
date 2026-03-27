@@ -13,7 +13,7 @@ const PreOrderSchema = new mongoose.Schema({
   paymentMethod: { type: String, required: true },
   status: {
     type: String,
-    enum: ["received", "in_progress", "packed", "dispatched"],
+    enum: ["received", "payment_received", "in_progress", "packed", "dispatched"],
     default: "received",
   },
   notes: String,

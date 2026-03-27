@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 
 router.patch("/:id/status", async (req, res) => {
   const { status } = req.body;
-  const allowed = ["received", "in_progress", "packed", "dispatched"];
+  const allowed = ["received", "payment_received", "in_progress", "packed", "dispatched"];
   if (!allowed.includes(status)) {
     return res.status(400).json({ error: "Invalid status" });
   }

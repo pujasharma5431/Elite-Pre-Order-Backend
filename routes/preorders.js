@@ -22,7 +22,8 @@ router.get("/", async (req, res) => {
 });
 
 router.patch("/:id/status", async (req, res) => {
-  const { status } = req.body;
+  const rawStatus = String(req.body.status || "").trim().toLowerCase();
+  const status = rawStatus.replace(/\s+/g, "_");
   const allowed = ["received", "payment_received", "in_progress", "packed", "dispatched"];
   if (!allowed.includes(status)) {
     return res.status(400).json({ error: "Invalid status" });

@@ -5,6 +5,7 @@ const PreOrderSchema = new mongoose.Schema({
   address: { type: String, required: true },
   city: { type: String, required: true },
   contactNo: { type: String, required: true },
+  email: { type: String, required: false },
   product: { type: String, required: true },
   height: { type: String, required: true },
   weight: { type: String, required: true },

@@ -22,11 +22,25 @@ app.get("/admin", (req, res) => {
 });
 
 const mongoUrl = process.env.MONGODB_URI || "mongodb://localhost:27017/eliteform";
+const port = Number(process.env.PORT) || 3000;
+
+app.get("/health", (req, res) => {
+  const dbState = mongoose.connection.readyState;
+  res.status(200).json({
+    ok: true,
+    dbConnected: dbState === 1,
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
 
 mongoose
-  .connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoUrl)
   .then(() => {
-    const port = process.env.PORT || 3000;
-    app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
+    console.log("MongoDB connected");
   })
-  .catch((err) => console.error("Mongo connection error:", err));
+  .catch((err) => {
+    console.error("Mongo connection error:", err.message);
+  });

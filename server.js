@@ -19,6 +19,8 @@ app.get("/health", (req, res) => {
   res.status(200).json({
     ok: true,
     dbConnected: dbState === 1,
+    apiVersion: 2,
+    supportsDeleteOrder: true,
   });
 });
 

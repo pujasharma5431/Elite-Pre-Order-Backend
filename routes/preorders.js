@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const PreOrder = require("../models/preorder");
+const { requireAdmin } = require("../middleware/auth");
 
 router.post("/", async (req, res) => {
   try {
@@ -12,7 +13,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", requireAdmin, async (req, res) => {
   try {
     const list = await PreOrder.find().sort({ createdAt: -1 });
     res.json(list);
@@ -21,7 +22,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.patch("/:id/status", async (req, res) => {
+router.patch("/:id/status", requireAdmin, async (req, res) => {
   const rawStatus = String(req.body.status || "").trim().toLowerCase();
   const status = rawStatus.replace(/\s+/g, "_");
   const allowed = ["received", "payment_received", "in_progress", "packed", "dispatched"];
@@ -42,7 +43,7 @@ router.patch("/:id/status", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", requireAdmin, async (req, res) => {
   try {
     const order = await PreOrder.findByIdAndDelete(req.params.id);
     if (!order) return res.status(404).json({ error: "Order not found" });

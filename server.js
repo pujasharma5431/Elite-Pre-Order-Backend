@@ -4,11 +4,13 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const preorderRoutes = require("./routes/preorders");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.use("/api/auth", authRoutes);
 app.use("/api/preorders", preorderRoutes);
 
 const mongoUrl = process.env.MONGODB_URI || "mongodb://localhost:27017/eliteform";
